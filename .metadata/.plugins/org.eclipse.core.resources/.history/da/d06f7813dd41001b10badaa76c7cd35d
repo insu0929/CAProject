@@ -1,0 +1,66 @@
+package dhh_simulator;
+
+public class Registers {
+	
+	// IF/ID Registers
+	int ifidRs;
+	int ifidRt;
+	int ifidRd;
+	
+	// ID/EX Registers
+	int idexRs;
+	int idexRt;
+	int idexRd;
+	int idexWr;
+	int idexRe;
+	int idexDst;
+	
+	// EX/MEM Registers
+	int exmemRd;
+	int exmemWr;
+	
+	// MEM/WB Registers
+	int memwbRd;
+	int memwbWr;
+	
+	//Forward
+	String forwardA;
+	String forwardB;
+	
+	//stall registers
+	int pcWrite;
+	int ifidWr;
+	int idexFl;
+	
+	
+	/*initiate register values*/
+	public Registers() {
+		this.ifidRs = 0;
+		this.ifidRt = 0;
+		this.ifidRd = 0;
+		
+		this.idexRs = 0;
+		this.idexRt = 0;
+		this.idexRd = 0;
+		this.idexWr = 0;
+		this.idexRe = 0;
+		this.idexDst = 0;
+		
+		this.exmemRd = 0;
+		this.exmemWr = 0;
+		
+		this.memwbRd = 0;
+		this.memwbWr = 0;
+		
+		this.forwardA = "00";
+		this.forwardB = "00";
+		
+		this.pcWrite = 1;
+		this.ifidWr = 1;
+		this.idexFl = 0;
+	}
+	
+	
+	
+	
+}

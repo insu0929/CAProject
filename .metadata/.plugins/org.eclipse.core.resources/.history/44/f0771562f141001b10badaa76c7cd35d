@@ -1,0 +1,119 @@
+package dhh_simulator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+//implemented by YIS
+
+/**
+ * 
+ * The MIPS pipeline processor for handling data hazards.
+ *
+ * **/
+
+public class Processor {
+
+	static Registers registers = new Registers();
+	
+	/*non register data*/
+	static String[] stages = new String[5]; //5 stages of processor
+	static ArrayList<String> instructions = new ArrayList(); //list of instructions from input file
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+				
+		//1. read input file
+		instructions = TextFileReader.readFile(instructions);
+		
+		int clockCycle = 1;
+		
+		System.out.println("CC " + clockCycle);
+		InstructionHandler.stageInstructions(instructions.get(0), stages);
+		instructions.remove(0);
+		InstructionHandler.printStageStatus(stages);
+		registers.printAllRegisters();
+		
+		clockCycle++;
+
+		
+	
+		while(!isEnd()) { //until all commands have passed WB stage
+			System.out.println("CC " + clockCycle);
+			String curInst = null;
+			
+			//2. put instructions to stage
+			if(instructions.isEmpty())
+				InstructionHandler.stageInstructions(null , stages);
+				
+			else {
+				curInst = instructions.get(0);
+				InstructionHandler.stageInstructions(curInst, stages);
+				instructions.remove(0);
+			}
+			
+			InstructionHandler.printStageStatus(stages);
+			
+		
+			//2. classify the instruction types
+			
+			
+			//3. write registers by instructions
+			for(int i = 0 ; i < stages.length; i++) {
+				String inst = stages[i];
+				
+				if(inst != null) {
+					InstructionHandler.getInstType(inst);
+				}
+				
+			}
+			
+			
+			//4. detect & process data hazards
+			//4-1. check for EX hazards
+			//4-2. check for MEM hazards
+			//4-3. check for Load-use hazards
+			
+			
+			
+			//5. write to history
+			//registers.printAllRegisters();
+			
+			clockCycle++;
+
+		}
+
+		
+
+	}
+	
+	static boolean isEnd() {
+		int count = 0;
+		for(int i = 0 ; i < stages.length; i++) {
+			if(stages[i] == null) {
+				count++;
+			}
+		}
+		
+		if(count == 5) return true;
+		else return false;
+	}
+
+	
+	//handles EX hazards
+	void processEXHazard() {
+		
+	}
+	
+	//handles MEM hazards
+	void processMEMHazard() {
+		
+	}
+	
+	
+	//handles load-use data hazards
+	void processLUHazard() {
+		
+	}
+
+}

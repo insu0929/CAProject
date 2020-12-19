@@ -1,0 +1,27 @@
+package dhh_simulator;
+
+import java.util.ArrayList;
+
+//implemented by YIS
+
+/**
+ * 
+ * The MIPS pipeline processor for handling data hazards.
+ *
+ * **/
+
+public class Processor {
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		
+		//1. read input file
+		TextFileReader.readFile();
+		
+		//2. process commands
+
+	}
+
+}

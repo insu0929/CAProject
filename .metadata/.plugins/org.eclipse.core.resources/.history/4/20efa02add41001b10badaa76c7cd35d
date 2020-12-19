@@ -1,0 +1,246 @@
+package dhh_simulator;
+
+public class Registers {
+	
+	// IF/ID Registers
+	int ifidRs;
+	int ifidRt;
+	int ifidRd;
+	
+	// ID/EX Registers
+	int idexRs;
+	int idexRt;
+	int idexRd;
+	int idexWr;
+	int idexRe;
+	int idexDst;
+	
+	// EX/MEM Registers
+	int exmemRd;
+	int exmemWr;
+	
+	// MEM/WB Registers
+	int memwbRd;
+	int memwbWr;
+	
+	//Forward
+	String forwardA;
+	String forwardB;
+	
+	//stall registers
+	int pcWrite;
+	int ifidWr;
+	int idexFl;
+	
+	
+	/*initiate register values*/
+	public Registers() {
+		this.ifidRs = 0;
+		this.ifidRt = 0;
+		this.ifidRd = 0;
+		
+		this.idexRs = 0;
+		this.idexRt = 0;
+		this.idexRd = 0;
+		this.idexWr = 0;
+		this.idexRe = 0;
+		this.idexDst = 0;
+		
+		this.exmemRd = 0;
+		this.exmemWr = 0;
+		
+		this.memwbRd = 0;
+		this.memwbWr = 0;
+		
+		this.forwardA = "00";
+		this.forwardB = "00";
+		
+		this.pcWrite = 1;
+		this.ifidWr = 1;
+		this.idexFl = 0;
+	}
+
+
+	public int getIfidRs() {
+		return ifidRs;
+	}
+
+
+	public void setIfidRs(int ifidRs) {
+		this.ifidRs = ifidRs;
+	}
+
+
+	public int getIfidRt() {
+		return ifidRt;
+	}
+
+
+	public void setIfidRt(int ifidRt) {
+		this.ifidRt = ifidRt;
+	}
+
+
+	public int getIfidRd() {
+		return ifidRd;
+	}
+
+
+	public void setIfidRd(int ifidRd) {
+		this.ifidRd = ifidRd;
+	}
+
+
+	public int getIdexRs() {
+		return idexRs;
+	}
+
+
+	public void setIdexRs(int idexRs) {
+		this.idexRs = idexRs;
+	}
+
+
+	public int getIdexRt() {
+		return idexRt;
+	}
+
+
+	public void setIdexRt(int idexRt) {
+		this.idexRt = idexRt;
+	}
+
+
+	public int getIdexRd() {
+		return idexRd;
+	}
+
+
+	public void setIdexRd(int idexRd) {
+		this.idexRd = idexRd;
+	}
+
+
+	public int getIdexWr() {
+		return idexWr;
+	}
+
+
+	public void setIdexWr(int idexWr) {
+		this.idexWr = idexWr;
+	}
+
+
+	public int getIdexRe() {
+		return idexRe;
+	}
+
+
+	public void setIdexRe(int idexRe) {
+		this.idexRe = idexRe;
+	}
+
+
+	public int getIdexDst() {
+		return idexDst;
+	}
+
+
+	public void setIdexDst(int idexDst) {
+		this.idexDst = idexDst;
+	}
+
+
+	public int getExmemRd() {
+		return exmemRd;
+	}
+
+
+	public void setExmemRd(int exmemRd) {
+		this.exmemRd = exmemRd;
+	}
+
+
+	public int getExmemWr() {
+		return exmemWr;
+	}
+
+
+	public void setExmemWr(int exmemWr) {
+		this.exmemWr = exmemWr;
+	}
+
+
+	public int getMemwbRd() {
+		return memwbRd;
+	}
+
+
+	public void setMemwbRd(int memwbRd) {
+		this.memwbRd = memwbRd;
+	}
+
+
+	public int getMemwbWr() {
+		return memwbWr;
+	}
+
+
+	public void setMemwbWr(int memwbWr) {
+		this.memwbWr = memwbWr;
+	}
+
+
+	public String getForwardA() {
+		return forwardA;
+	}
+
+
+	public void setForwardA(String forwardA) {
+		this.forwardA = forwardA;
+	}
+
+
+	public String getForwardB() {
+		return forwardB;
+	}
+
+
+	public void setForwardB(String forwardB) {
+		this.forwardB = forwardB;
+	}
+
+
+	public int getPcWrite() {
+		return pcWrite;
+	}
+
+
+	public void setPcWrite(int pcWrite) {
+		this.pcWrite = pcWrite;
+	}
+
+
+	public int getIfidWr() {
+		return ifidWr;
+	}
+
+
+	public void setIfidWr(int ifidWr) {
+		this.ifidWr = ifidWr;
+	}
+
+
+	public int getIdexFl() {
+		return idexFl;
+	}
+
+
+	public void setIdexFl(int idexFl) {
+		this.idexFl = idexFl;
+	}
+	
+	
+	
+	
+}

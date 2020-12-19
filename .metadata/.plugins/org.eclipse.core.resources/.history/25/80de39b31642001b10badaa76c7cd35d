@@ -1,0 +1,77 @@
+package dhh_simulator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class InstructionHandler {
+
+	
+	//put instructions to stage
+	static void stageInstructions(String command, String[] stages){
+		
+		int size = stages.length; //5
+		
+		String end = stages[size - 1]; //finised command
+		
+		for(int i = size - 1; i >= 1; i--) {
+			stages[i] = stages[i - 1];
+		}
+		
+		stages[0] = command;
+	}
+	
+	static void printStageStatus(String[] stages) {
+		
+		System.out.println("IF: " + stages[0]);
+		System.out.println("ID: " + stages[1]);
+		System.out.println("EX: " + stages[2]);
+		System.out.println("MEM: " + stages[3]);
+		System.out.println("WB: " + stages[4]);
+		System.out.println();
+		
+	}
+	
+	static int getInstType(String instruction) {
+		
+		String[] parsedInst = instruction.split(" ");
+		
+		String instrPrefix = parsedInst[0];
+		System.out.println(instrPrefix);
+		
+		
+		if(instrPrefix.contentEquals("add") || instrPrefix.contentEquals("or")) { //r-format
+			if(instrPrefix.contentEquals("add"))
+				return 0;
+			else //or
+				return 1;
+			
+		}else if(instrPrefix.contentEquals("lw") || instrPrefix.contentEquals("sw") ||  instrPrefix.contentEquals("ori") || instrPrefix.contentEquals("addi")) { //i-format
+			if(instrPrefix.contentEquals("lw"))
+				return 2;
+			else if(instrPrefix.contentEquals("sw"))
+				return 3;
+			else if(instrPrefix.contentEquals("ori"))
+				return 4;
+			else if(instrPrefix.contentEquals("addi"))
+				return 5;
+			
+		}else { //exception in input
+			return -1;
+		}
+		return -1;
+	}
+	
+	static int getInstr(String in) {
+		
+		if(in.endsWith(",")) { //remove comma at the end
+			in = in.substring(0, in.length() - 1);
+		}
+		
+		if(in.startsWith("$")) { //registerType
+			return Integer.parseInt(in.substring(1,in.length() - 1));
+		}else {
+			return Integer.parseInt(in);
+		}
+	}
+	
+}

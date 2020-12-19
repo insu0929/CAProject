@@ -1,0 +1,71 @@
+package dhh_simulator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+//implemented by YIS
+
+/**
+ * 
+ * The MIPS pipeline processor for handling data hazards.
+ *
+ * **/
+
+public class Processor {
+
+	static Registers registers = new Registers();
+	
+	/*processor logics*/
+	static HashMap<String, String> state = new HashMap();
+	static ArrayList<String> instructions = new ArrayList();
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		//initialize
+		initStates();
+		
+		
+		
+		//1. read input file
+		instructions = TextFileReader.readFile(instructions);
+		
+		//System.out.println(instructions);
+		
+		//2. process commands
+		
+
+	}
+	
+	static void initStates() {
+		state.put("IF", null);
+		state.put("ID", null);
+		state.put("EX", null);
+		state.put("MEM", null);
+		state.put("WB", null);
+	}
+	
+	
+	
+	
+	
+	
+	
+	//handles EX hazards
+	void processEXHazard() {
+		
+	}
+	
+	//handles MEM hazards
+	void processMEMHazard() {
+		
+	}
+	
+	
+	//handles load-use data hazards
+	void processLUHazard() {
+		
+	}
+
+}

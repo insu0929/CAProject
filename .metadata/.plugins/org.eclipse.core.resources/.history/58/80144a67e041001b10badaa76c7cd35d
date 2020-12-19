@@ -1,0 +1,37 @@
+package dhh_simulator;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class TextFileReader {
+	
+
+	public static ArrayList<String> readFile(ArrayList<String> commands) {
+		
+        try{
+            //파일 객체 생성
+            File file = new File("/Users/jason/Desktop/CSE/Year IV/4-3/computer architecture/processor_sim/dhh_simulator/input.txt");
+            //입력 스트림 생성
+            FileReader filereader = new FileReader(file);
+            //입력 버퍼 생성
+            BufferedReader bufReader = new BufferedReader(filereader);
+            String line = "";
+            while((line = bufReader.readLine()) != null){
+                commands.add(line);
+            	//System.out.println(line);
+            }
+            //.readLine()은 끝에 개행문자를 읽지 않는다.            
+            bufReader.close();
+        }catch (FileNotFoundException e) {
+            // TODO: handle exception
+        }catch(IOException e){
+            System.out.println(e);
+        }
+        
+        return commands;
+    }
+}

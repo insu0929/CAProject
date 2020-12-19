@@ -1,0 +1,54 @@
+package dhh_simulator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class InstructionHandler {
+
+	
+	//put instructions to stage
+	static void stageInstructions(String command, String[] stages){
+		
+		int size = stages.length; //5
+		
+		String end = stages[size - 1]; //finised command
+		
+		for(int i = size - 1; i >= 1; i--) {
+			stages[i] = stages[i - 1];
+		}
+		
+		stages[0] = command;
+	}
+	
+	static void printStageStatus(String[] stages) {
+		
+		System.out.println("IF: " + stages[0]);
+		System.out.println("ID: " + stages[1]);
+		System.out.println("EX: " + stages[2]);
+		System.out.println("MEM: " + stages[3]);
+		System.out.println("WB: " + stages[4]);
+		System.out.println();
+		
+	}
+	
+	static int getInstType(String instruction) {
+		
+		String[] parsedInst = instruction.split(" ");
+		
+		String instrPrefix = parsedInst[0];
+		System.out.println(instrPrefix);
+		
+		
+		if(instrPrefix == "add" || instrPrefix == "addi" || instrPrefix == "or" || instrPrefix == "ori") {
+			//r-format
+			return 0;
+			
+		}else if(instrPrefix == "lw" || instrPrefix == "sw") { //i-format
+			return 1;
+			
+		}else { //exception in input
+			return -1;
+		}
+	}
+	
+}
