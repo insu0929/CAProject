@@ -182,7 +182,7 @@ public class Processor {
 					//write to IF/ID registers
 					registers.setIfidRs(ifidRs);
 					registers.setIfidRt(ifidRt);
-					registers.setIfidRd(0); //i - format is 0
+					registers.setIfidRd(ifidRt); //i - format is 0
 					
 				}else {
 					System.out.println("error");

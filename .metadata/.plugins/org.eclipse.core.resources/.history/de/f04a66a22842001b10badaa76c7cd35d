@@ -65,7 +65,7 @@ public class DataHazardHandler {
 		int IfIdRegRs = registers.getIfidRs();
 		int IfIdRegRt = registers.getIfidRt();
 		
-		if(IdExMemRead == 1 && (IdExRegRt == IfIdRegRs || IdExRegRt == IfIdRegRt)) {
+		if(IdExMemRead == 1 && IdExRegRt == IfIdRegRs && IdExRegRt == IfIdRegRt) {
 
 			System.out.println("Pipeline stall detected!");
 			
@@ -83,7 +83,7 @@ public class DataHazardHandler {
 		
 	}
 	
-	public static boolean isStall(Registers registers) {
+	public static booleanisStall(Registers registers) {
 		if(registers.getPcWrite() == 0 && registers.getIfidWr() == 0 && registers.getIdexFl() == 1)
 			return true;
 		else 

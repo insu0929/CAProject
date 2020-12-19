@@ -21,19 +21,7 @@ public class InstructionHandler {
 	}
 	
 	//stall stages for LU Hazard
-	static void stallInstructions(String[] stages) {
-		int size = stages.length; //5
-		
-		String end = stages[size - 1]; //end instruction
-		
-		String temp = stages[2];
-		
-		// 0:IF 1:ID 2:EX 3:MEM 4:WB
-		//stages[0] = same as before
-		//stages[1] = same as before
-		stages[2] = null; //pipeline bubble at EX stage;
-		stages[3] = temp; //shift
-		stages[4] = null; //shift
+	static void stallInstructions(String command, String[] stages) {
 		
 		
 	}
@@ -55,21 +43,28 @@ public class InstructionHandler {
 		
 		String instrPrefix = parsedInst[0];
 		
-		if(instrPrefix.contentEquals("add"))
-			return 0;
-		else if(instrPrefix.contentEquals("or"))
-			return 1;
-		else if(instrPrefix.contentEquals("lw"))
-			return 2;
-		else if(instrPrefix.contentEquals("sw"))
-			return 3;
-		else if(instrPrefix.contentEquals("ori"))
-			return 4;
-		else if(instrPrefix.contentEquals("addi"))
-			return 5;
-		else
+		
+		if(instrPrefix.contentEquals("add") || instrPrefix.contentEquals("or")) { //r-format
+			if(instrPrefix.contentEquals("add"))
+				return 0;
+			else //or
+				return 1;
+			
+		}else if(instrPrefix.contentEquals("lw") || instrPrefix.contentEquals("sw") ||  instrPrefix.contentEquals("ori") || instrPrefix.contentEquals("addi")) { //i-format
+			if(instrPrefix.contentEquals("lw"))
+				return 2;
+			else if(instrPrefix.contentEquals("sw"))
+				return 3;
+			else if(instrPrefix.contentEquals("ori"))
+				return 4;
+			else if(instrPrefix.contentEquals("addi"))
+				return 5;
+			
+		}else { //exception in input
 			return -1;
 		}
+		return -1;
+	}
 	
 	static int getInstr(String in) {
 		
@@ -84,11 +79,10 @@ public class InstructionHandler {
 			if(in.endsWith(")")){ //0($3)
 				String res = in.substring(0, in.length() - 1);
 				StringBuilder sb = new StringBuilder();
-				for(int i = res.length() - 1 ; i >= 0; i--) {
-					char c = res.charAt(i);
-					if(c == '$')
+				for(int i = in.length(); i >= 0; i--) {
+					if(in.charAt(i) == '$')
 						break;
-					sb.append(c);
+					sb.append(in.charAt(i));
 				}
 				int result = Integer.parseInt(sb.toString());
 				return result;

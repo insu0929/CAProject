@@ -55,21 +55,28 @@ public class InstructionHandler {
 		
 		String instrPrefix = parsedInst[0];
 		
-		if(instrPrefix.contentEquals("add"))
-			return 0;
-		else if(instrPrefix.contentEquals("or"))
-			return 1;
-		else if(instrPrefix.contentEquals("lw"))
-			return 2;
-		else if(instrPrefix.contentEquals("sw"))
-			return 3;
-		else if(instrPrefix.contentEquals("ori"))
-			return 4;
-		else if(instrPrefix.contentEquals("addi"))
-			return 5;
-		else
+		
+		if(instrPrefix.contentEquals("add") || instrPrefix.contentEquals("or")) { //r-format
+			if(instrPrefix.contentEquals("add"))
+				return 0;
+			else //or
+				return 1;
+			
+		}else if(instrPrefix.contentEquals("lw") || instrPrefix.contentEquals("sw") ||  instrPrefix.contentEquals("ori") || instrPrefix.contentEquals("addi")) { //i-format
+			if(instrPrefix.contentEquals("lw"))
+				return 2;
+			else if(instrPrefix.contentEquals("sw"))
+				return 3;
+			else if(instrPrefix.contentEquals("ori"))
+				return 4;
+			else if(instrPrefix.contentEquals("addi"))
+				return 5;
+			
+		}else { //exception in input
 			return -1;
 		}
+		return -1;
+	}
 	
 	static int getInstr(String in) {
 		
@@ -84,11 +91,11 @@ public class InstructionHandler {
 			if(in.endsWith(")")){ //0($3)
 				String res = in.substring(0, in.length() - 1);
 				StringBuilder sb = new StringBuilder();
-				for(int i = res.length() - 1 ; i >= 0; i--) {
-					char c = res.charAt(i);
+				for(int i = in.length() - 1; i >= 0; i--) {
+					char c = in.charAt(i);
 					if(c == '$')
 						break;
-					sb.append(c);
+					sb.append(in.charAt(i));
 				}
 				int result = Integer.parseInt(sb.toString());
 				return result;

@@ -249,7 +249,7 @@ public class Registers {
 		System.out.println("ID/EX.registerRt:" + idexRt);
 		System.out.println("ID/EX.registerRd: "+ idexRd);
 		System.out.println("ID/EX.registerWrite: "+ idexWr);
-		System.out.println("ID/EX.MemRead: "+ idexRe);
+		System.out.println("ID/EX.registerRead: "+ idexRe);
 		System.out.println("ID/EX.registerDst: "+ idexDst);
 		System.out.println("EX/MEM.registerRd: "+ exmemRd);
 		System.out.println("EX/MEM.registerWrite: "+ exmemWr);

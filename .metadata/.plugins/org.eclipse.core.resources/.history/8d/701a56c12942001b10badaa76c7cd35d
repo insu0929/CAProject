@@ -32,8 +32,8 @@ public class Processor {
 		InstructionHandler.stageInstructions(instructions.get(0), stages);
 		instructions.remove(0);
 		InstructionHandler.printStageStatus(stages);
-		registers.printAllRegisters();
-		//registers.print1();
+		//registers.printAllRegisters();
+		registers.print1();
 		clockCycle++;
 
 		
@@ -43,28 +43,20 @@ public class Processor {
 			String curInst = null;
 			
 			//2. put instructions to stage
-			if(instructions.isEmpty()) {
-				if(!DataHazardHandler.isStall(registers)) {
+			if(instructions.isEmpty())
+				if(!DataHazardHandler.isStall(registers))
 					InstructionHandler.stageInstructions(null , stages);
-				}
-				else {
+				else
 					InstructionHandler.stallInstructions(stages);
-				}
-				
-			}else {
-				
-				
+			else {
 				curInst = instructions.get(0);
 				
-				if(!DataHazardHandler.isStall(registers)) {
-					InstructionHandler.stageInstructions(curInst , stages);
-					instructions.remove(0);
-				}
-				else {
+				if(!DataHazardHandler.isStall(registers))
+					InstructionHandler.stageInstructions(null , stages);
+				else
 					InstructionHandler.stallInstructions(stages);
-				}
 				
-				
+				instructions.remove(0);
 			}
 			
 			InstructionHandler.printStageStatus(stages);
@@ -176,8 +168,7 @@ public class Processor {
 					String rt = parsedInstr[1];
 					
 					int ifidRs = InstructionHandler.getInstr(rs);
-					int ifidRt = InstructionHandler.getInstr(rt); 
-					
+					int ifidRt = InstructionHandler.getInstr(rt);
 					
 					//write to IF/ID registers
 					registers.setIfidRs(ifidRs);
@@ -204,17 +195,14 @@ public class Processor {
 			//4-3. check for Load-use hazards
 			registers.setForwardA("00");
 			registers.setForwardB("00");
-			registers.setPcWrite(1);
-			registers.setIfidWr(1);
-			registers.setIdexFl(0);
 			DataHazardHandler.handleEXHazard(registers);
 			DataHazardHandler.handleMEMHazards(registers);
 			DataHazardHandler.handleLUHazards(registers);
 			
 
 			//5. write to history
-			registers.printAllRegisters();
-			//registers.print1();
+			//registers.printAllRegisters();
+			registers.print1();
 			
 			clockCycle++;
 		}

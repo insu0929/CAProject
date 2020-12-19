@@ -176,8 +176,7 @@ public class Processor {
 					String rt = parsedInstr[1];
 					
 					int ifidRs = InstructionHandler.getInstr(rs);
-					int ifidRt = InstructionHandler.getInstr(rt); 
-					
+					int ifidRt = InstructionHandler.getInstr(rt);
 					
 					//write to IF/ID registers
 					registers.setIfidRs(ifidRs);
