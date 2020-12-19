@@ -1,0 +1,238 @@
+package dhh_simulator;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+//implemented by YIS
+
+/**
+ * 
+ * The MIPS pipeline processor for handling data hazards.
+ *
+ * **/
+
+public class Processor {
+
+	static Registers registers = new Registers();
+	
+	/*non register data*/
+	static String[] stages = new String[5]; //5 stages of processor
+	static ArrayList<String> instructions = new ArrayList(); //list of instructions from input file
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+				
+		//1. read input file
+		instructions = TextFileReader.readFile(instructions);
+		
+		int clockCycle = 1;
+		
+		System.out.println("CC " + clockCycle);
+		InstructionHandler.stageInstructions(instructions.get(0), stages);
+		instructions.remove(0);
+		InstructionHandler.printStageStatus(stages);
+		registers.printAllRegisters();
+		//registers.print1();
+		clockCycle++;
+
+		
+	
+		while(!isEnd()) { //until all commands have passed WB stage
+			System.out.println("CC " + clockCycle);
+			String curInst = null;
+			
+			//2. put instructions to stage
+			if(instructions.isEmpty()) {
+				if(!DataHazardHandler.isStall(registers)) {
+					InstructionHandler.stageInstructions(null , stages);
+				}
+				else {
+					InstructionHandler.stallInstructions(stages);
+				}
+				
+			}else {
+				
+				
+				curInst = instructions.get(0);
+				
+				if(!DataHazardHandler.isStall(registers)) {
+					InstructionHandler.stageInstructions(curInst , stages);
+					instructions.remove(0);
+				}
+				else {
+					InstructionHandler.stallInstructions(stages);
+				}
+				
+				
+			}
+			
+			InstructionHandler.printStageStatus(stages);
+			
+			//3. write to registers by instructions
+			
+			int iType = -1;
+
+			if(stages[4] != null) { //write MEM/WB registers (WB stage)
+				
+				//at the end of the last cycle, ex/mem registers propagated values
+				int prexmemrd = registers.getExmemRd();
+				int prexmemwr = registers.getExmemWr();
+				
+				registers.setMemwbRd(prexmemrd);
+				registers.setMemwbWr(prexmemwr);
+						
+				
+			}else {
+				registers.setMemwbRd(0);
+				registers.setMemwbWr(0);
+			}
+
+			
+			if(stages[3] != null) { //write EX/MEM registers (MEM stage)
+				
+				//at the end of last cycle, id/ex registers propagated values
+				int pridexrd = registers.getIdexRd();
+				int pridexwr = registers.getIdexWr();
+				
+				registers.setExmemRd(pridexrd);
+				registers.setExmemWr(pridexwr);
+							
+				
+			}else { //no commands in MEM stage
+				registers.setExmemRd(0);
+				registers.setExmemWr(0);
+
+			}
+			
+			
+			
+			if(stages[2] != null) { //write ID/EX registers (EX Stage)
+				
+				//at the end of last cycle, if/id registers propagated values
+				int prifidrs = registers.getIfidRs();
+				int prifidrt = registers.getIfidRt();
+				int prifidrd = registers.getIfidRd();
+				
+				iType = InstructionHandler.getInstType(stages[2]);
+				
+	
+				registers.setIdexRs(prifidrs);
+				registers.setIdexRt(prifidrt);
+				registers.setIdexRd(prifidrd);
+				
+				//set ID/EX.regDst
+				if(iType == 0 || iType == 1) 
+					registers.setIdexDst(1); //r format instructions are set 1
+				else
+					registers.setIdexDst(0); // i format instructions are set 0
+				
+				//set ID/EX.regWrite
+				if(iType == 3) // sw does not write to any registers
+					registers.setIdexWr(0);
+				else //rest of the instructions write to registers
+					registers.setIdexWr(1);
+				
+				//set ID/EX.memRead
+				if(iType == 2)  //lw reads from memory only
+					registers.setIdexRe(1);
+				else //rest of the instructions do not read memory
+					registers.setIdexRe(0);
+				
+				
+			}else { //no commands in EX stage
+				registers.setIdexRs(0); //data hazard
+				registers.setIdexRt(0); //data hazard
+				registers.setIdexRd(0); //data hazard
+				
+				registers.setIdexWr(0);
+				registers.setIdexRe(0); 
+				registers.setIdexDst(0); 
+			}
+			
+			
+			
+			if(stages[1] != null) { //instruction is staged in ID (ID Stage)	
+				iType = InstructionHandler.getInstType(stages[1]); //get instruction format
+				String[] parsedInstr = stages[1].split(" ");
+				
+				if(iType == 0 || iType == 1) { //r-format instruction
+					String rs = parsedInstr[2];
+					String rt = parsedInstr[3];
+					String rd = parsedInstr[1];
+					
+					int ifidRs = InstructionHandler.getInstr(rs);
+					int ifidRt = InstructionHandler.getInstr(rt);
+					int ifidRd = InstructionHandler.getInstr(rd);
+					
+					//write to IF/ID registers
+					registers.setIfidRs(ifidRs);
+					registers.setIfidRt(ifidRt);
+					registers.setIfidRd(ifidRd);
+					
+					
+				}else if(iType == 2 || iType == 3 || iType == 4 || iType == 5) { //i-format instruction
+					String rs = parsedInstr[2];
+					String rt = parsedInstr[1];
+					
+					int ifidRs = InstructionHandler.getInstr(rs);
+					int ifidRt = InstructionHandler.getInstr(rt); 
+					
+					
+					//write to IF/ID registers
+					registers.setIfidRs(ifidRs);
+					registers.setIfidRt(ifidRt);
+					registers.setIfidRd(0); //i - format is 0
+					
+				}else {
+					System.out.println("error");
+					break;
+				}
+				
+			}else { //no commands in ID stage
+				
+				registers.setIfidRs(0);
+				registers.setIfidRt(0);
+				registers.setIfidRd(0);
+				
+			}
+			
+			
+			//4. detect & process data hazards
+			//4-1. check for EX hazards
+			//4-2. check for MEM hazards (check for double hazards also)
+			//4-3. check for Load-use hazards
+			registers.setForwardA("00");
+			registers.setForwardB("00");
+			registers.setPcWrite(1);
+			registers.setIfidWr(1);
+			registers.setIdexFl(0);
+			DataHazardHandler.handleEXHazard(registers);
+			DataHazardHandler.handleMEMHazards(registers);
+			DataHazardHandler.handleLUHazards(registers);
+			
+
+			//5. write to history
+			registers.printAllRegisters();
+			//registers.print1();
+			
+			clockCycle++;
+		}
+
+		
+
+	}
+	
+	static boolean isEnd() {
+		int count = 0;
+		for(int i = 0 ; i < stages.length; i++) {
+			if(stages[i] == null) {
+				count++;
+			}
+		}
+		
+		if(count == 5) return true;
+		else return false;
+	}
+
+	}

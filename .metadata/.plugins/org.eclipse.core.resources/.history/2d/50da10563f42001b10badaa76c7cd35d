@@ -1,0 +1,5 @@
+package mips_pipeline;
+
+public class OutputWriter {
+
+}

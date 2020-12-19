@@ -1,0 +1,49 @@
+package mips_pipeline;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.util.ArrayList;
+
+
+public class OutputWriter {
+
+	public static int colCount = 0;
+	
+	public static ArrayList <String[]> cols = new ArrayList();
+	
+	public static void addCol(Registers registers) {
+		
+		String[] col = new String[18];
+		col[0] = String.valueOf(registers.getIfidRs());
+		col[1] = String.valueOf(registers.getIfidRt());
+		col[2] = String.valueOf(registers.getIfidRd());
+		
+		col[3] = String.valueOf(registers.getIdexRs());
+		col[4] = String.valueOf(registers.getIdexRt());
+		col[5] = String.valueOf(registers.getIdexRd());
+		col[6] = String.valueOf(registers.getIdexWr());
+		col[7] = String.valueOf(registers.getIdexRe());
+		col[8] = String.valueOf(registers.getIdexDst());
+		
+		col[9] = String.valueOf(registers.getExmemRd());
+		col[10] = String.valueOf(registers.getExmemWr());
+		
+		col[11] = String.valueOf(registers.getMemwbRd());
+		col[12] = String.valueOf(registers.getMemwbWr());
+		
+		col[13] = String.valueOf(registers.getForwardA());
+		col[14] = String.valueOf(registers.getForwardB());
+		
+		col[15] = String.valueOf(registers.getPcWrite());
+		col[16] = String.valueOf(registers.getIfidWr());
+		col[17] = String.valueOf(registers.getIdexFl());
+		c
+		
+	}
+	
+	
+	public static void write(Registers register) {
+		
+		
+	}
+}

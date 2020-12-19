@@ -1,0 +1,178 @@
+package mips_pipeline;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.supercsv.io.CsvListWriter;
+import org.supercsv.io.ICsvListWriter;
+import org.supercsv.prefs.CsvPreference;
+
+
+public class OutputWriter {
+
+	public static int colCount = 0;
+	
+	public static ArrayList <String[]> cols = new ArrayList();
+	public static ArrayList<String[]> rows = new ArrayList();
+
+	
+	public static void reverse() {
+		
+		ArrayList<String> row1 = new ArrayList();
+		ArrayList<String> row2 = new ArrayList();
+		ArrayList<String> row3 = new ArrayList();
+		ArrayList<String> row4 = new ArrayList();
+		ArrayList<String> row5 = new ArrayList();
+		ArrayList<String> row6 = new ArrayList();
+		ArrayList<String> row7 = new ArrayList();
+		ArrayList<String> row8 = new ArrayList();
+		ArrayList<String> row9 = new ArrayList();
+		ArrayList<String> row10 = new ArrayList();
+		ArrayList<String> row11 = new ArrayList();
+		ArrayList<String> row12 = new ArrayList();
+		ArrayList<String> row13 = new ArrayList();
+		ArrayList<String> row14 = new ArrayList();
+		ArrayList<String> row15 = new ArrayList();
+		ArrayList<String> row16 = new ArrayList();
+		ArrayList<String> row17 = new ArrayList();
+		ArrayList<String> row18 = new ArrayList();
+		ArrayList<String> row19 = new ArrayList();
+
+		
+		for(int i = 0 ; i < cols.size(); i++) {
+			String val1 = cols.get(i)[0];
+			String val2 = cols.get(i)[1];
+			String val3 = cols.get(i)[2];
+			
+			String val4 = cols.get(i)[3];
+			String val5 = cols.get(i)[4];
+			String val6 = cols.get(i)[5];
+			String val7 = cols.get(i)[6];
+			String val8 = cols.get(i)[7];
+			String val9 = cols.get(i)[8];
+			String val10 = cols.get(i)[9];
+			String val11 = cols.get(i)[10];
+			String val12 = cols.get(i)[11];
+			String val13 = cols.get(i)[12];
+			String val14 = cols.get(i)[13];
+			String val15 = cols.get(i)[14];
+			String val16 = cols.get(i)[15];
+			String val17 = cols.get(i)[16];
+			String val18 = cols.get(i)[17];
+			String val19 = cols.get(i)[18];
+
+			
+			row1.add(val1);
+			row2.add(val2);
+			row3.add(val3);
+			row4.add(val4);
+			row5.add(val5);
+			row6.add(val6);
+			row7.add(val7);
+			row8.add(val8);
+			row9.add(val9);
+			row10.add(val10);
+			row11.add(val11);
+			row12.add(val12);
+			row13.add(val13);
+			row14.add(val14);
+			row15.add(val15);
+			row16.add(val16);
+			row17.add(val17);
+			row18.add(val18);
+			row19.add(val19);
+			
+		}
+		
+	}
+	
+	public static void addCol(Registers registers, int cc) {
+		
+		String[] col = new String[19];
+		col[0] = "CC" +cc;
+		col[1] = String.valueOf(registers.getIfidRs());
+		col[2] = String.valueOf(registers.getIfidRt());
+		col[3] = String.valueOf(registers.getIfidRd());
+		
+		col[4] = String.valueOf(registers.getIdexRs());
+		col[5] = String.valueOf(registers.getIdexRt());
+		col[6] = String.valueOf(registers.getIdexRd());
+		col[7] = String.valueOf(registers.getIdexWr());
+		col[8] = String.valueOf(registers.getIdexRe());
+		col[9] = String.valueOf(registers.getIdexDst());
+		
+		col[10] = String.valueOf(registers.getExmemRd());
+		col[11] = String.valueOf(registers.getExmemWr());
+		
+		col[12] = String.valueOf(registers.getMemwbRd());
+		col[13] = String.valueOf(registers.getMemwbWr());
+		
+		col[14] = String.valueOf(registers.getForwardA());
+		col[15] = String.valueOf(registers.getForwardB());
+		
+		col[16] = String.valueOf(registers.getPcWrite());
+		col[17] = String.valueOf(registers.getIfidWr());
+		col[18] = String.valueOf(registers.getIdexFl());
+		
+		cols.add(col);
+		
+	}
+	
+	
+	public static void writeOutLine() {
+		String[] col = new String[19];
+		
+		col[0] = " ";
+		col[1] = "IF/ID.registerRs";
+		col[2] = "IF/ID.registerRt";
+		col[3] = "IF/ID.registerRd";
+		
+		col[4] = "ID/EX.registerRs";
+		col[5] = "ID/EX.registerRt";
+		col[6] = "ID/EX.registerRd";
+		col[7] = "ID/EX.regWrite";
+		col[8] = "ID/EX.memRead";
+		col[9] = "ID/EX.RegDst";
+		
+
+		col[10] = "EX/MEM.registerRd";
+		col[11] = "EX/MEM.regWrite";
+		
+		col[12] = "MEM/WB.registerRd";
+		col[13] = "MEM/WB.regWrite";
+		
+		col[14] = "ForwardA";
+		col[15] = "ForwardB";
+		
+		col[16] = "PCWrite";
+		col[17] = "IF/IDWrite";
+		col[18] = "ID/EXFlush";
+		cols.add(col);
+		
+	}
+	public static void write() {
+		
+		writeOutLine();
+		ICsvListWriter csvWriter = null;
+		
+		try {
+			csvWriter = new CsvListWriter(new FileWriter("out.csv"), CsvPreference.STANDARD_PREFERENCE);
+			for(int i = 0; i < rows.size(); i++) {
+				csvWriter.write(rows.get(i));
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				csvWriter.close();
+				
+			}catch(IOException e) {
+				
+			}
+		}
+		
+		
+	}
+}
